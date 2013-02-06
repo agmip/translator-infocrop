@@ -17,7 +17,7 @@ public class SoilProcessor {
 	private static final Logger LOG = LoggerFactory.getLogger(SoilProcessor.class);
 	private String outputDir;
 	HashMap<String, SoilData> soilDataMap; 
-	 
+	private final String NEW_LINE = "\r\n";
 	
 	
 	public HashMap<String, SoilData> ProcessSoilData(String outputDir, HashMap<String, Object> results) throws IOException
@@ -41,9 +41,9 @@ public class SoilProcessor {
 		String ksatm = MapUtil.getValueOr(soil, "sldr", "-9999");
 		String soil_id = MapUtil.getValueOr(soil, "soil_id", "-9999");
 		
-		recordData.append("PARAM SLOPE").append("=").append(MapUtil.getValueOr(soil, "slpf", "-9999")).append("\n");
-		recordData.append("PARAM RUNOFF").append("=").append(MapUtil.getValueOr(soil, "slro", "-9999")).append("\n");
-		recordData.append("PARAM ALBEDO").append("=").append(MapUtil.getValueOr(soil, "salb", "-9999")).append("\n");
+		recordData.append("PARAM SLOPE").append("=").append(MapUtil.getValueOr(soil, "slpf", "-9999")).append(NEW_LINE);
+		recordData.append("PARAM RUNOFF").append("=").append(MapUtil.getValueOr(soil, "slro", "-9999")).append(NEW_LINE);
+		recordData.append("PARAM ALBEDO").append("=").append(MapUtil.getValueOr(soil, "salb", "-9999")).append(NEW_LINE);
 
 		
 		for(String slk: soil.keySet() ){ LOG.info("Soil Global Data {} {}", slk, soil.get(slk)); }
@@ -70,25 +70,25 @@ public class SoilProcessor {
 			counter++;
 			
 			if( counter == FIRST_LAYER )
-				recordData.append("PARAM PHSOL").append("=").append(MapUtil.getValueOr(soilLayer, "slphw", "-9999")).append("\n");
+				recordData.append("PARAM PHSOL").append("=").append(MapUtil.getValueOr(soilLayer, "slphw", "-9999")).append(NEW_LINE);
 			
 
-			layerData.append("******************************SOIL LAYER").append(counter).append("******************************").append("\n");
-			layerData.append("PARAM KSATM").append(counter).append("=").append(ksatm).append("\n");
-			layerData.append("PARAM WCFCM").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "sldul", "-9999")).append("\n");
-			layerData.append("PARAM BDM").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slbdm", "-9999")).append("\n");
-			layerData.append("PARAM SILT").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slsil", "-9999")).append("\n");
+			layerData.append(NEW_LINE).append("******************************SOIL LAYER").append(counter).append("******************************").append(NEW_LINE);
+			layerData.append("PARAM KSATM").append(counter).append("=").append(ksatm).append(NEW_LINE);
+			layerData.append("PARAM WCFCM").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "sldul", "-9999")).append(NEW_LINE);
+			layerData.append("PARAM BDM").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slbdm", "-9999")).append(NEW_LINE);
+			layerData.append("PARAM SILT").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slsil", "-9999")).append(NEW_LINE);
 			
 			if( counter == MAX_LAYERS )
-				layerData.append("PARAM TKL").append(counter).append("M").append("=").append(MapUtil.getValueOr(soilLayer, "sllb", "-9999")).append("\n");
+				layerData.append("PARAM TKL").append(counter).append("M").append("=").append(MapUtil.getValueOr(soilLayer, "sllb", "-9999")).append(NEW_LINE);
 			else
-				layerData.append("PARAM TKL").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "sllb", "-9999")).append("\n");
+				layerData.append("PARAM TKL").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "sllb", "-9999")).append(NEW_LINE);
 		
-			layerData.append("PARAM WCSTM").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slsat", "-9999")).append("\n");
-			layerData.append("PARAM OC").append(counter).append("IN").append("=").append(MapUtil.getValueOr(soilLayer, "sloc", "-9999")).append("\n");
-			layerData.append("PARAM CLAY").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slcly", "-9999")).append("\n");
-			layerData.append("PARAM WCAD").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slll", "-9999")).append("\n");
-			layerData.append("PARAM WCWP").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slwp", "0")).append("\n");
+			layerData.append("PARAM WCSTM").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slsat", "-9999")).append(NEW_LINE);
+			layerData.append("PARAM OC").append(counter).append("IN").append("=").append(MapUtil.getValueOr(soilLayer, "sloc", "-9999")).append(NEW_LINE);
+			layerData.append("PARAM CLAY").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slcly", "-9999")).append(NEW_LINE);
+			layerData.append("PARAM WCAD").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slll", "-9999")).append(NEW_LINE);
+			layerData.append("PARAM WCWP").append(counter).append("=").append(MapUtil.getValueOr(soilLayer, "slwp", "0")).append(NEW_LINE);
 
 			
 			soilDataObj.AddLayerData(layerData.toString());
